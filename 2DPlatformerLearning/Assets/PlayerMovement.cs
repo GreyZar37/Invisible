@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
 
     Rigidbody2D rb;
 
-    public bool isGrounded;
+    public static bool isGrounded;
     public Transform groundCheck;
     public float checkRadius;
     public LayerMask whatIsGrounded;
@@ -22,11 +22,17 @@ public class PlayerMovement : MonoBehaviour
     public int ekstraJumpValue;
     private int ekstraJumps;
 
+   
+
+
+    private Animator anim;
+
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-       
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -51,10 +57,34 @@ public class PlayerMovement : MonoBehaviour
         }
 
       
+
+      
     }
 
     private void Update()
     {
+
+        anim.SetFloat("y.Velocity", rb.velocity.y);
+
+        if (moveInput == 0)
+        {
+            anim.SetBool("isWalking", false);
+        }
+        else if (moveInput != 0)
+        {
+            anim.SetBool("isWalking", true);
+        }
+
+
+        if(isGrounded == true)
+        {
+            anim.SetBool("isJumping", false);
+        }
+        else if(isGrounded != true)
+        {
+            anim.SetBool("isJumping", true);
+        }
+
 
         if (isGrounded == true)
         {
@@ -65,20 +95,25 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = Vector2.up * jumpForce;
             ekstraJumps--;
+            anim.SetBool("isJumping", true);
         }
+
+      
         else if (Input.GetKeyDown(KeyCode.Space) && ekstraJumps == 0 && isGrounded == true)
         {
             rb.velocity = Vector2.up * jumpForce;
+
+      
         }
+
+
+      
+
     }
     public void Flip()
     {
         facingRight = !facingRight;
 
-        Vector3 Scaler = transform.localScale;
-        Scaler.x *= -1;
-
-        transform.localScale = Scaler;
-
+        transform.Rotate(0f, 180f, 0);
     }
 }
