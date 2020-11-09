@@ -17,7 +17,8 @@ public class PlayerMovement : MonoBehaviour
     public float checkRadius;
     public LayerMask whatIsGrounded;
 
-    public int jumpForce;
+    public float jumpForce;
+    
 
     public int ekstraJumpValue;
     private int ekstraJumps;
@@ -25,20 +26,19 @@ public class PlayerMovement : MonoBehaviour
    
 
 
-    private Animator anim;
+    
 
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
+        
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        print(ekstraJumps);
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGrounded);
 
@@ -64,27 +64,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
 
-        anim.SetFloat("y.Velocity", rb.velocity.y);
-
-        if (moveInput == 0)
-        {
-            anim.SetBool("isWalking", false);
-        }
-        else if (moveInput != 0)
-        {
-            anim.SetBool("isWalking", true);
-        }
-
-
-        if(isGrounded == true)
-        {
-            anim.SetBool("isJumping", false);
-        }
-        else if(isGrounded != true)
-        {
-            anim.SetBool("isJumping", true);
-        }
-
+       
 
         if (isGrounded == true)
         {
@@ -95,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = Vector2.up * jumpForce;
             ekstraJumps--;
-            anim.SetBool("isJumping", true);
+            
         }
 
       

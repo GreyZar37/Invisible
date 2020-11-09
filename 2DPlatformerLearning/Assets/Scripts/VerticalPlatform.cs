@@ -6,6 +6,8 @@ public class VerticalPlatform : MonoBehaviour
 {
 
     private PlatformEffector2D effector;
+    public float waitTime;
+
 
     // Start is called before the first frame update
     void Start()
@@ -16,18 +18,36 @@ public class VerticalPlatform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        print(waitTime);
+
+        if (Input.GetKeyUp(KeyCode.S))
+        {
+      
+            waitTime = 0.2f;
+
+        }
+
+
         if (Input.GetKey(KeyCode.S))
         {
-            effector.rotationalOffset = 180f;
+            if(waitTime<= 0)
+            {
+                effector.rotationalOffset = 180f;
+                waitTime = 0.2f;
+            }
+            else
+            {
+                waitTime -= Time.deltaTime;
+            }
+
+
         }
-        else
+        if (Input.GetKey(KeyCode.Space))
         {
             effector.rotationalOffset = 0f;
         }
+      
 
-        /* if (Input.GetKeyDown(KeyCode.Space))
-         {
-             effector.rotationalOffset = 0f;
-         }*/
+      
     }
 }
