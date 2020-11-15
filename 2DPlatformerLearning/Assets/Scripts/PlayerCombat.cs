@@ -10,6 +10,8 @@ public class PlayerCombat : MonoBehaviour
 
     public LayerMask enemyLayers;
 
+ 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +34,7 @@ public class PlayerCombat : MonoBehaviour
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            Debug.Log("We hit" + enemy.name);
+            enemy.GetComponent<EnemyHealth>().takeDamage(20);
         }
        
     }
@@ -43,5 +45,7 @@ public class PlayerCombat : MonoBehaviour
 
         Gizmos.DrawSphere(attackpoint.position, attackRange);
     }
+
+    
 }
 

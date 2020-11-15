@@ -8,7 +8,7 @@ public class VerticalPlatform : MonoBehaviour
     private PlatformEffector2D effector;
     public float waitTime;
 
-    float cooldownTimer = 0.2f;
+    float cooldownTimer = 0.3f;
 
 
     private bool setLock;
@@ -20,7 +20,6 @@ public class VerticalPlatform : MonoBehaviour
     {
         effector = GetComponent<PlatformEffector2D>();
 
-        StartCoroutine(enumerator());
         
     }
 
@@ -36,7 +35,7 @@ public class VerticalPlatform : MonoBehaviour
             waitTime = 0.2f;
 
             setLock = true;
-            cooldownTimer =  0.2f;
+            cooldownTimer =  0.3f;
          
         }
 
@@ -44,7 +43,7 @@ public class VerticalPlatform : MonoBehaviour
         {
             if (effector.rotationalOffset == 180f)
             {
-                print(cooldownTimer);
+                
                 if (cooldownTimer <= 0)
                 {
                     effector.rotationalOffset = 0f;
@@ -83,20 +82,10 @@ public class VerticalPlatform : MonoBehaviour
         }
       
        
-
+        
       
     }
 
-
-    IEnumerator enumerator()
-    {
-
-        yield return new WaitForSeconds(0.3f);
-        effector.rotationalOffset = 0f;
-
-
-        yield return null;
-    }
 
 
 }
