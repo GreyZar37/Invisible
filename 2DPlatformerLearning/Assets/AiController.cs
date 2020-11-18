@@ -6,9 +6,13 @@ public class AiController : MonoBehaviour
 {
 
     public float speed;
+
+    public float runSpeed;
+
     public float distance = 2f;
 
-    public float sightDistence;
+    public float sightDistence = 1000;
+    public float wallSpotDistence;
 
     private bool movingRight = true;
 
@@ -16,32 +20,68 @@ public class AiController : MonoBehaviour
 
     public Rigidbody2D rb;
 
+    private Transform targetPlayer;
+
+ 
+
+    
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         Physics2D.queriesStartInColliders = false;
+        targetPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        transform.Translate(Vector2.right * speed*Time.deltaTime);
+       
+        
+
+
+        
+        
+             
+        
+       
         RaycastHit2D groundInfoY = Physics2D.Raycast(groundCheck.position,Vector2.down, distance);
 
 
         RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, transform.right, sightDistence);
-        if(hitInfo.collider != null)
+
+        RaycastHit2D wallInfo = Physics2D.Raycast(transform.position, transform.right, wallSpotDistence);
+
+
+
+        if (hitInfo.collider != null)
         {
             if (hitInfo.collider.CompareTag("Player"))
             {
-                Destroy(hitInfo.collider.gameObject);
+                if (Vector2.Distance(transform.position, targetPlayer.position) >= 12)
+                {
+                    transform.position = Vector2.MoveTowards(transform.position, targetPlayer.position, runSpeed * Time.deltaTime);
+                }
+
+
+            }
+
+        }
+
+        if (wallInfo.collider != null)
+        {
+            if (wallInfo.collider.CompareTag("Wall"))
+            {
+                transform.Translate(Vector2.right * speed * Time.deltaTime);
             }
         }
+
+
+           
         
 
-        
+      
             if (groundInfoY.collider == false)
         {
            if(movingRight == true)
