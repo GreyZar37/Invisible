@@ -22,8 +22,8 @@ public class AiController : MonoBehaviour
 
     private Transform targetPlayer;
 
- 
-
+  
+    
     
 
     void Start()
@@ -31,6 +31,8 @@ public class AiController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         Physics2D.queriesStartInColliders = false;
         targetPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+
+       
     }
 
     // Update is called once per frame
@@ -62,6 +64,11 @@ public class AiController : MonoBehaviour
                 if (Vector2.Distance(transform.position, targetPlayer.position) >= 12)
                 {
                     transform.position = Vector2.MoveTowards(transform.position, targetPlayer.position, runSpeed * Time.deltaTime);
+                   
+                }
+                else
+                {
+                   
                 }
 
 
@@ -96,5 +103,11 @@ public class AiController : MonoBehaviour
             }
         }
       
+    }
+
+    public void flip()
+    {
+        transform.LookAt(targetPlayer.position);
+        transform.eulerAngles = new Vector3(0, -180, 0);
     }
 }
