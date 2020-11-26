@@ -16,38 +16,65 @@ public class AiController : MonoBehaviour
 
     private bool movingRight = true;
 
+    private bool flip = false;
+
     public Transform groundCheck;
 
     public Rigidbody2D rb;
 
-    private Transform targetPlayer;
+    public Transform targetPlayer;
 
-  
-    
-    
+
+    private float CurrentTime;
+    private float CooldownTime = 1.5f  ;
+
+
+
+    private float CurrentTimeShoot;
+    private float CooldownTimeShoot = 1;
+
+    private float CurrentTimeFlip;
+    private float CooldownTimeFlip = 0.1f;
+
+
+    public GameObject bulletPrefab;
+    public Transform firepoint;
+
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         Physics2D.queriesStartInColliders = false;
-        targetPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-
-       
     }
 
     // Update is called once per frame
     void Update()
     {
 
-       
-        
 
 
-        
-        
-             
-        
-       
+        CurrentTimeShoot -= Time.deltaTime;
+
+        if (CurrentTimeShoot <= 0)
+        {
+            CurrentTimeShoot = 0;
+        }
+
+
+        if (CurrentTime <= 0)
+        {
+            CurrentTime = 0;
+        }
+
+
+        if (CurrentTimeFlip <= 0)
+        {
+            CurrentTimeFlip = 0;
+        }
+
+
+
         RaycastHit2D groundInfoY = Physics2D.Raycast(groundCheck.position,Vector2.down, distance);
 
 
@@ -61,53 +88,86 @@ public class AiController : MonoBehaviour
         {
             if (hitInfo.collider.CompareTag("Player"))
             {
-                if (Vector2.Distance(transform.position, targetPlayer.position) >= 12)
-                {
-                    transform.position = Vector2.MoveTowards(transform.position, targetPlayer.position, runSpeed * Time.deltaTime);
-                   
-                }
-                else
-                {
-                   
-                }
 
+                CurrentTime = CooldownTime;
+
+                if (Vector2.Distance(transform.position, targetPlayer.position) >= 10)
+                {
+
+                    transform.position = Vector2.MoveTowards(transform.position, targetPlayer.position, runSpeed * Time.deltaTime);
+
+                    CurrentTimeFlip -= Time.deltaTime;
+
+                }
+                else if (Vector2.Distance(transform.position, targetPlayer.position) <= 10 )
+                {
+
+                    CurrentTimeFlip -= Time.deltaTime;
+                    if (CurrentTimeShoot == 0)
+                    {
+                        Shoot();
+                        CurrentTimeShoot = CooldownTimeShoot;
+                        
+                    }
+                    
+                }
+               
 
             }
 
         }
 
-        if (wallInfo.collider != null)
+       if (wallInfo.collider != null)
         {
-            if (wallInfo.collider.CompareTag("Wall"))
+
+            CurrentTime -= Time.deltaTime;
+
+
+            if (wallInfo.collider.CompareTag("Wall") && CurrentTime <= 0)
             {
                 transform.Translate(Vector2.right * speed * Time.deltaTime);
+
             }
         }
 
+       if(CurrentTime <= 0 && CurrentTimeFlip <= 0)
+        {
+            flip = true;
+            CurrentTimeFlip = CooldownTimeFlip;
+        }
 
-           
-        
 
-      
-            if (groundInfoY.collider == false)
+
+       if(flip == true)
+        {
+            transform.Rotate(0f, 180f, 0);
+            flip = false;
+        }
+
+
+        print(CurrentTimeFlip);
+
+        if (groundInfoY.collider == false)
         {
            if(movingRight == true)
             {
-                transform.eulerAngles = new Vector3(0, -180, 0);
+                transform.Rotate(0f, 180f, 0);
                 movingRight = false;
             }
             else
             {
-                transform.eulerAngles = new Vector3(0, 0, 0);
+                transform.Rotate(0f, 180f, 0);
                 movingRight = true;
             }
         }
       
     }
 
-    public void flip()
+    public void Shoot()
     {
-        transform.LookAt(targetPlayer.position);
-        transform.eulerAngles = new Vector3(0, -180, 0);
+        Instantiate(bulletPrefab, firepoint.position, firepoint.rotation);
+
+
     }
+
 }

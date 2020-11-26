@@ -36,13 +36,12 @@ public class PlayerCombat : MonoBehaviour
         {
             
             enemy.GetComponent<EnemyHealth>().takeDamage(20);
+
+         
+           
         }
 
-        foreach (Collider2D enemyController in hitEnemies)
-        {
-
-            enemyController.GetComponent<AiController>().flip();
-        }
+       
 
     }
     private void OnDrawGizmosSelected()
