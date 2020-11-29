@@ -10,21 +10,37 @@ public class PlayerCombat : MonoBehaviour
 
     public LayerMask enemyLayers;
 
- 
+    private float currentAttackTimer;
+    private float attackCooldown = 0.25f;
+
+
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+
+        currentAttackTimer -= Time.deltaTime;
+
+        if (currentAttackTimer <= 0)
         {
-            Attack();
-           
+            currentAttackTimer = 0;
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && currentAttackTimer == 0)
+        {
+            Attack();            
+            currentAttackTimer = attackCooldown;
+            
         }
     }
 
@@ -36,9 +52,8 @@ public class PlayerCombat : MonoBehaviour
         {
             
             enemy.GetComponent<EnemyHealth>().takeDamage(20);
-
-         
-           
+            enemy.GetComponent<AiController>().damagedFlip(true, 0.3f);
+ 
         }
 
        
@@ -52,6 +67,5 @@ public class PlayerCombat : MonoBehaviour
         Gizmos.DrawSphere(attackpoint.position, attackRange);
     }
 
-    
 }
 

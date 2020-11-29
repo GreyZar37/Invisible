@@ -5,6 +5,12 @@ TextureImporter:
   - first:
       213: 61506194941554554
     second: Ninja_0
+  - first:
+      213: -5070578790469015657
+    second: Ninja_0
+  - first:
+      213: -8209850998951266162
+    second: Ninja_1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -97,8 +103,29 @@ TextureImporter:
         serializedVersion: 2
         x: 20
         y: 4
-        width: 34
+        width: 20
         height: 52
+      alignment: 9
+      pivot: {x: 0.53715336, y: 0.53929675}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 797e674847fa1a9b0800000000000000
+      internalID: -5070578790469015657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ninja_1
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 26
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -106,8 +133,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a7f2af4fe838ad000800000000000000
-      internalID: 61506194941554554
+      spriteID: e88bf9c9300c01e80800000000000000
+      internalID: -8209850998951266162
       vertices: []
       indices: 
       edges: []

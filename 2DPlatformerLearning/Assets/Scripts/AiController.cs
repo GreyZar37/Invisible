@@ -18,6 +18,10 @@ public class AiController : MonoBehaviour
 
     private bool flip = false;
 
+ 
+
+
+
     public Transform groundCheck;
 
     public Rigidbody2D rb;
@@ -40,10 +44,14 @@ public class AiController : MonoBehaviour
     public GameObject bulletPrefab;
     public Transform firepoint;
 
+    
+
 
 
     void Start()
     {
+        
+
         rb = GetComponent<Rigidbody2D>();
         Physics2D.queriesStartInColliders = false;
     }
@@ -52,6 +60,8 @@ public class AiController : MonoBehaviour
     void Update()
     {
 
+
+        
 
 
         CurrentTimeShoot -= Time.deltaTime;
@@ -74,7 +84,7 @@ public class AiController : MonoBehaviour
         }
 
 
-
+      
         RaycastHit2D groundInfoY = Physics2D.Raycast(groundCheck.position,Vector2.down, distance);
 
 
@@ -88,7 +98,7 @@ public class AiController : MonoBehaviour
         {
             if (hitInfo.collider.CompareTag("Player"))
             {
-
+               
                 CurrentTime = CooldownTime;
 
                 if (Vector2.Distance(transform.position, targetPlayer.position) >= 10)
@@ -145,7 +155,7 @@ public class AiController : MonoBehaviour
         }
 
 
-        print(CurrentTimeFlip);
+       
 
         if (groundInfoY.collider == false)
         {
@@ -160,14 +170,33 @@ public class AiController : MonoBehaviour
                 movingRight = true;
             }
         }
+
+      
       
     }
+
 
     public void Shoot()
     {
         Instantiate(bulletPrefab, firepoint.position, firepoint.rotation);
 
+    }
+    public void damagedFlip(bool gothit, float stunTime)
+    {
+
+        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, transform.right, sightDistence);
+
+        CurrentTimeShoot += stunTime;
+
+        if (hitInfo.collider.CompareTag("Wall"))
+        {
+            transform.Rotate(0f, 180f, 0f);         
+        }
+
 
     }
+
+    
+
 
 }
